@@ -14,7 +14,7 @@ mmatcher <- function(
   n_per_match = 1,        # number of controls per treatment
   loud = TRUE             # print update bars
 )
-
+}
 \description{
 Takes a data.frame (ds) and using the variables specified in x_vars, selects matches from the control group (group_var == 0) for members of the treatment group (group_var == 1) where possible. It returns a data.frame containing only rows which are part of a match.
 
