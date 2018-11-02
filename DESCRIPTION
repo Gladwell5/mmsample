@@ -1,9 +1,8 @@
 Package: mmsample
-Type: Package
 Title: Multivariate Matched Sampling
 Version: 0.1
-Author: Gladwell5
-Maintainer: Gladwell5 <https://github.com/Gladwell5>
+Author: Eoin O'Connell [aut, cre]
+Maintainer: Eoin O'Connell <eoin.m.oconnell@gmail.com>
 Description: Subset a control group to match an intervention group on a set of features using multivariate matching and propensity score calipers. Based on methods in Rosenbaum and Rubin (1985).
 License: GPL3
 Encoding: UTF-8

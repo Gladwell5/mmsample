@@ -14,7 +14,7 @@ mmatcher <- function(
   n_per_match = 1,        # number of controls per treatment
   loud = TRUE             # print update bars
 )
-
+}
 \description{
 Takes a data.frame (ds) and using the variables specified in x_vars, selects matches from the control group (group_var == 0) for members of the treatment group (group_var == 1) where possible. It returns a data.frame containing only rows which are part of a match.
 
@@ -39,7 +39,7 @@ df <- data.frame(age = round(c(rnorm(control_n, 40, 15), rnorm(treat_n, 60, 15))
                  grp = c(rep(0, control_n), rep(1, treat_n)))
 df$age[df$age < 20 | df$age > 95] <- NA
 
-matched_df <- mmatcher(df, "grp", c("age", "male"))
+matched_df <- mmsample::mmatcher(df, "grp", c("age", "male"))
 
 tapply(df$age, df$grp, quantile, na.rm = TRUE)
 tapply(matched_df$age, matched_df$grp, quantile, na.rm = TRUE)
