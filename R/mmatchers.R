@@ -1,8 +1,8 @@
 mmatcher <- function(
   ds,                      # data.frame containing an ID variable, a group (0/1) variable and others to calculate distance
-  id_var,			             # ID variable in ds
   group_var,			         # variable with 0=control and 1=treatment in ds
   x_vars = "_all_",        # list of variables for to use in distance calculation
+  id_var = NA,			       # ID variable in ds
   distance = "mahal",		   # "mahal", "euclid", "norm_euclid", "sad"
   caliper = 0.10,		       # proportionate width for calipers
   seed = 12345,		         # initial random seed value
@@ -21,21 +21,25 @@ mmatcher <- function(
   }
 
   # check id and group variables appear in ds
-  if (!(id_var %in% names(ds)) | !(group_var %in% names(ds))) {
+  if ((!is.na(id_var) & !(id_var %in% names(ds))) | !(group_var %in% names(ds))) {
     stop("id_var and group_var must appear in ds.")
   }
 
   # get x_var names if "_all_", otherwise stop if any not present
-  if (x_vars == "_all_") {
-    x_vars <- names(ds)[!(names(ds) %in% c(id_var, group_var))]
+  if (length(x_vars) == 1 & x_vars[1] == "_all_") {
+    if (!is.na(id_var)) {
+      x_vars <- names(ds)[!(names(ds) %in% c(id_var, group_var))]
+    } else {
+      x_vars <- names(ds)[names(ds) != group_var]
+    }
   } else if (!(all(x_vars %in% names(ds)))) {
     stop("All variables in x_vars must appear in ds.")
   }
 
   # remove any rows containing NAs on required variables
-  for (v in c(id_var, group_var, x_vars)) {
-    ds <- ds[!is.na(ds[[v]]), ]
-  }
+  req_vars <- c(group_var, x_vars)
+  if (!is.na(id_var)) req_vars <- c(id_var, req_vars)
+  for (v in req_vars) { ds <- ds[!is.na(ds[[v]]), ] }
 
   # check sufficient data remains
   if (min(table(ds[[group_var]])) < 2) {

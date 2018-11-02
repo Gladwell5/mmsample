@@ -2,7 +2,7 @@
 \alias{mmatcher}
 \title{Multivariate Matching}
 \usage{
-mmatcher(ds, id_var, group_var, x_vars = "_all_",
+mmatcher(ds, group_var, x_vars = "_all_", id_var = NA,
         distance = "mahal", caliper = 0.10,
         seed = 12345, max_candidates = 1000,
         n_per_match = 1, loud = TRUE)
@@ -26,15 +26,12 @@ control_n <- 300
 n <- treat_n + control_n
 set.seed(123)
 
-df <- data.frame(id = paste0('id', formatC(sample(1:n), width = 4, flag = "0")),
-                 age = round(c(rnorm(control_n, 40, 15), rnorm(treat_n, 60, 15)), 2),
+df <- data.frame(age = round(c(rnorm(control_n, 40, 15), rnorm(treat_n, 60, 15)), 2),
                  male = c(rbinom(control_n, 1, 0.4), rbinom(treat_n, 1, 0.6)),
                  grp = c(rep(0, control_n), rep(1, treat_n)))
 df$age[df$age < 20 | df$age > 95] <- NA
 
-matched_df <- mmatcher(df, 'id', 'grp')
-# |5|10|15|20|25|30|35|40|45|50|55|60|65|70|75|80|85|90|95|100
-# Matched: 74/98	Mean (95% CI) distance: 0.149 (0.001, 0.840)
+matched_df <- mmatcher(df, "grp", c("age", "male"))
 
 tapply(df$age, df$grp, quantile, na.rm = TRUE)
 tapply(matched_df$age, matched_df$grp, quantile, na.rm = TRUE)
