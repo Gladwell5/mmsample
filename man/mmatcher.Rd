@@ -2,18 +2,19 @@
 \alias{mmatcher}
 \title{Multivariate Matching}
 \usage{
-mmatcher <- function(
-  ds,                     # data.frame containing at least a group (0/1) variable and others to calculate distance
-  group_var,              # variable with 0=control and 1=treatment in ds
-  x_vars = "_all_",       # list of variables for to use in distance calculation
-  id_var = NA,            # ID variable in ds
-  distance = "mahal",     # "mahal", "euclid", "norm_euclid", "sad"
-  caliper = 0.10,         # proportionate width for calipers
-  seed = 12345,           # initial random seed value
-  max_candidates = 1000,  # maximum number of candidates within calipers per match
-  n_per_match = 1,        # number of controls per treatment
-  loud = TRUE             # print update bars
-)
+mmatcher(ds, group_var, x_vars = "_all_", id_var = NA, distance = "mahal", caliper = 0.10, seed = 12345, max_candidates = 1000, n_per_match = 1, loud = TRUE)
+}
+\arguments{
+\item{ds}{data.frame containing at least a group (0/1) variable and others to calculate distance}
+\item{group_var}{variable with 0=control and 1=treatment in ds}
+\item{x_vars}{list of variables to use in distance calculation}
+\item{id_var}{name of ID variable in ds (if present) }
+\item{distance}{one of "mahal", "euclid", "norm_euclid" or "sad"}
+\item{caliper}{proportionate width for propensity score calipers}
+\item{seed}{initial random seed value}
+\item{max_candidates}{maximum number of candidates within calipers per match}
+\item{n_per_match}{number of control cases to match to each treatment case}
+\item{loud}{print update bars and stats}
 }
 \description{
 Takes a data.frame (ds) and using the variables specified in x_vars, selects matches from the control group (group_var == 0) for members of the treatment group (group_var == 1) where possible. It returns a data.frame containing only rows which are part of a match.

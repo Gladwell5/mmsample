@@ -41,7 +41,7 @@ mmatcher <- function(ds, group_var, x_vars = "_all_", id_var = NA,
   if (prp_var %in% names(ds)) {
     i = 1 ; while (prp_var %in% names(ds)) { prp_var <- paste0("propensity_score", i) ; i = i+1 }
   }
-  ds[[prp_var]] <- round(predict(glm(as.formula(paste(group_var, "~", paste(x_vars, collapse = "+"))),
+  ds[[prp_var]] <- round(stats::predict(stats::glm(stats::as.formula(paste(group_var, "~", paste(x_vars, collapse = "+"))),
                                      ds, family = "binomial"), type = "response", newdata = ds), 6)
   ds <- ds[order(ds[[prp_var]]), ]
   x_vars <- c(x_vars, prp_var)
@@ -49,11 +49,11 @@ mmatcher <- function(ds, group_var, x_vars = "_all_", id_var = NA,
 
   # inverted covariance matrix
   if(distance == "mahal") {
-    cov_inv <- MASS::ginv(cov(ds[, x_vars]))
+    cov_inv <- MASS::ginv(stats::cov(ds[, x_vars]))
   } else if (distance == "euclid") {
     cov_inv <- diag(length(x_vars))
   } else if (distance == "norm_euclid") {
-    cov_inv <- diag(MASS::ginv(cov(ds[, x_vars]))) * diag(length(x_vars))
+    cov_inv <- diag(MASS::ginv(stats::cov(ds[, x_vars]))) * diag(length(x_vars))
   }
 
   # initialise
@@ -130,7 +130,7 @@ mmatcher <- function(ds, group_var, x_vars = "_all_", id_var = NA,
     fmt_rnd <- function(x, d = 3) format(round(x, 3), nsmall = 3)
     distance_values <- paired_ds[[dist_var]][paired_ds[[group_var]] == 0]
     distance_stats_string <- paste0(fmt_rnd(mean(distance_values), 3),
-           " (", paste(fmt_rnd(as.vector(quantile(distance_values, c(0.025, 0.975))), 3), collapse = ", "), ")")
+           " (", paste(fmt_rnd(as.vector(stats::quantile(distance_values, c(0.025, 0.975))), 3), collapse = ", "), ")")
     cat("\nMatched: ", sum(paired_ds[[group_var]]), "/", treatment_n ,
         "\tMean (95% CI) distance: ", distance_stats_string, "\n", sep = "")
   }

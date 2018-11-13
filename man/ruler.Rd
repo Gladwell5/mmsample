@@ -4,9 +4,13 @@
 \usage{
 ruler(vR, uR, ciR)
 }
+\arguments{
+\item{uR}{a vector of length k containing a list of values for all features (k) for the target. Numeric and dense.}
+\item{vR}{an n x k matrix containing a matrix of values for all features (k) for all candidates (n). Numeric and dense.}
+\item{ciR}{a square k x k matrix containing the inverted covariance matrix for all features (k). Numeric and dense.}
+}
 \description{
 Returns a vector of distances from all rows in vR to the single row uR using ciR as the inverted covariance matrix.
-uR is a vector of length k, vR is an n x k matrix and ciR is a square k x k matrix. All must be numeric and dense.
 }
 \examples{
 set.seed(123)
