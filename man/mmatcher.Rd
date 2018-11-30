@@ -2,7 +2,8 @@
 \alias{mmatcher}
 \title{Multivariate Matching}
 \usage{
-mmatcher(ds, group_var, x_vars = "_all_", id_var = NA, distance = "mahal", caliper = 0.10, seed = 12345, max_candidates = 1000, n_per_match = 1, loud = TRUE)
+mmatcher(ds, group_var, x_vars = "_all_", id_var = NA, distance = "mahal",
+  caliper = 0.10, seed = 12345, max_candidates = 1000, n_per_match = 1, loud = TRUE)
 }
 \arguments{
 \item{ds}{data.frame containing at least a group (0/1) variable and others to calculate distance}
