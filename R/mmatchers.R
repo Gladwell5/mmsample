@@ -1,3 +1,11 @@
+rruler <- function(v, u, ci) {
+  n = nrow(v) ; k = ncol(v)
+  u = matrix(rep(u, n), k, n)
+  uv = t(v) - u
+  distances = matrix(diag(t(uv) %*% ci %*% uv), ncol=1)
+  return(distances)
+}
+
 mmatcher <- function(ds, group_var, x_vars = "_all_", id_var = NA,
                      distance = "mahal", caliper = 0.10, seed = 12345,
                      max_candidates = 1000, n_per_match = 1, loud = TRUE) {
